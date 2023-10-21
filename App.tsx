@@ -1,27 +1,36 @@
 import React from "react";
-import { View, Text, StyleSheet} from "react-native";
+import CounterPage from "./src/pages/CounterPage";
+import LogInPage from "./src/pages/LogInPage";
 
-const App = () =>{
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { counterEvent } from "react-native/Libraries/Performance/Systrace";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import SettingsPage from "./src/pages/SettingsPage";
+
+
+const stack = createStackNavigator();
+
+const bottom_tab = createBottomTabNavigator();
+
+const BasicDashboardScreen = () => {
   return(
-    <View style= {styles.mainContainer}>
-      <Text style={styles.textContainer}>
-        HEY there!
-      </Text>
-    </View>
+    <stack.Navigator screenOptions={{headerShown: false}}>
+        <stack.Screen name="Counter" component={CounterPage}/>
+        <stack.Screen name="Login" component={LogInPage}/>
+    </stack.Navigator>
   )
 }
 
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex : 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  textContainer: {
-    fontWeight: "700",
-    fontSize: 30,
-    color: "red"
-  }
-})
+const App = () =>{
+  return(
+    <NavigationContainer>
+      <bottom_tab.Navigator>
+        <bottom_tab.Screen name="Dashboard" component={BasicDashboardScreen}/>
+        <bottom_tab.Screen name="Settings" component={SettingsPage}/>
+      </bottom_tab.Navigator>
+    </NavigationContainer>
+  )
+}
 
 export default App;
